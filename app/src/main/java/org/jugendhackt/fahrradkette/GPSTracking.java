@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -14,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
 public class GPSTracking implements LocationListener {
+    registerReceiver(singleUpdateReceiver,new IntentFilter(SINGLE_LOCATION_UPDATE_ACTION));
 
     private MainActivity context;
     private LocationManager locationManager;
@@ -23,10 +26,10 @@ public class GPSTracking implements LocationListener {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // Berechtigung gewährt
             trackingAllowed();
-        }else{
+        }else {
             // Berechtigung NICHT gewährt
             ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        }    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 // Berechtigung gewährt
                 trackingAllowed();
             }else{
@@ -94,7 +97,7 @@ public class GPSTracking implements LocationListener {
     }
 
     public void qps_request_button() {
-        PendingIntent pendingIntent = new PendingIntent();
+        Intent Intent = new Intent();
         locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, );
     }
 }
