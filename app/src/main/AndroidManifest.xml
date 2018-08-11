@@ -22,6 +22,10 @@
         <activity
             android:name=".NewPos"
             android:label="@string/title_activity_new_pos"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Info"
+            android:label="@string/title_activity_info"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
