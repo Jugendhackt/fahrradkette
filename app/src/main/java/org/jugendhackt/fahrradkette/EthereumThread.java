@@ -7,6 +7,8 @@ import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.request.EthFilter;
+import org.web3j.protocol.core.methods.response.EthBlock;
 import org.web3j.protocol.core.methods.response.EthGetBalance;
 import org.web3j.protocol.core.methods.response.EthTransaction;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
@@ -20,9 +22,6 @@ import java.util.concurrent.ExecutionException;
 public class EthereumThread extends Thread {
 
     private Credentials wallet;
-
-    private static final BigInteger GAS_PRICE = Contract.GAS_PRICE;
-    private static final BigInteger GAS_LIMIT = Contract.GAS_LIMIT;
 
     public EthereumThread(Credentials wallet) {
         this.wallet = wallet;
@@ -47,13 +46,14 @@ public class EthereumThread extends Thread {
 
             Log.d(MainActivity.TAG, "Latest block num:" + blockNum.toString());
 
-            Bike bike = new Bike(11.12, 50.1, 10, 235, "Mein Fahrrad",
+            Bike bike = new Bike(11.12, 50.1, 10, 235, "Mein Fahrrad 2",
                     "Besonderheiten");
 
-            BikeContract b = BikeContract.deploy(web3, this.wallet, GAS_PRICE, GAS_LIMIT,
-                    bike.getPrice(), bike.getLatitude(),
-                    bike.getLongitude(), bike.name, bike.specialities, bike.getCode())
-                    .send();
+            Contract b = bike.getContractRemoteCall(web3, wallet).send();
+            Log.d(MainActivity.TAG, b.getContractAddress());
+
+            //EthFilter filter = new EthFilter(DefaultBlockParameterName.EARLIEST,
+            //        DefaultBlockParameterName.LATEST, b.getContractAddress()).addSingleTopic("");
 
             Log.d(MainActivity.TAG, String.valueOf(b.isValid()));
 

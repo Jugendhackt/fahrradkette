@@ -1,5 +1,12 @@
 package org.jugendhackt.fahrradkette;
 
+
+import org.jugendhackt.fahrradkette.contracts.BikeContract;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.RemoteCall;
+import org.web3j.tx.Contract;
+import org.web3j.crypto.Credentials;
+
 import java.math.BigInteger;
 
 public class Bike {
@@ -36,5 +43,11 @@ public class Bike {
 
     public BigInteger getPrice() {
         return BigInteger.valueOf(price);
+    }
+
+    public RemoteCall<BikeContract> getContractRemoteCall(Web3j web3, Credentials wallet) {
+        return BikeContract.deploy(web3, wallet, Contract.GAS_PRICE, Contract.GAS_LIMIT,
+                this.getPrice(), this.getLatitude(),
+                this.getLongitude(), this.name, this.specialities, this.getCode());
     }
 }
