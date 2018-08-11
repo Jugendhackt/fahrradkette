@@ -7,4 +7,9 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_GPS_request"
+        android:orderInCategory="99"
+        android:title="@string/String_GPS_request" />
 </menu>
