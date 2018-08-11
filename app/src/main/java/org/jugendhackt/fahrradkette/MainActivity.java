@@ -5,11 +5,26 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.web3j.crypto.CipherException;
+import org.web3j.crypto.Credentials;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.Web3jFactory;
+import org.web3j.protocol.core.methods.response.Web3ClientVersion;
+import org.web3j.protocol.http.HttpService;
+
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+
 public class MainActivity extends AppCompatActivity {
+
+    public static final String TAG = "FK";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +41,51 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+
+
+
+        Credentials wallet = loadWallet("test");
+        /** wallet doesn't exist yet */
+        if(wallet == null) {
+            createNewWallet("test");
+            wallet = loadWallet("test");
+        }
+
+        EthereumThread et = new EthereumThread(wallet);
+        et.start();
+
+        Log.d(this.TAG, wallet.getAddress());
+    }
+
+    private void createNewWallet(String password) {
+        Wallet w = new Wallet(getBaseContext());
+        try {
+            w.newWallet(password);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (CipherException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Credentials loadWallet(String password) {
+        Wallet w = new Wallet(getBaseContext());
+        try {
+            return w.loadWallet(password);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CipherException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
