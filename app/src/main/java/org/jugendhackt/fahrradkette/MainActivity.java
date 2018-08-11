@@ -1,6 +1,7 @@
 package org.jugendhackt.fahrradkette;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -73,43 +74,24 @@ public class MainActivity extends AppCompatActivity {
 
         mapController.setCenter(startPoint);
 
-        Marker bike0 = new Marker(map);
-        GeoPoint bikePos0 = new GeoPoint(latBike0, lonBike0);
-        bike0.setPosition(bikePos0);
-        bike0.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        map.getOverlays().add(bike0);
 
-        Marker bike1 = new Marker(map);
-        GeoPoint bikePos1 = new GeoPoint(latBike1, lonBike1);
-        bike1.setPosition(bikePos1);
-        bike1.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        map.getOverlays().add(bike1);
-
-        Marker bike2 = new Marker(map);
-        GeoPoint bikePos2 = new GeoPoint(latBike2, lonBike2);
-        bike2.setPosition(bikePos2);
-        bike2.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        map.getOverlays().add(bike2);
-
-        Marker bike3 = new Marker(map);
-        GeoPoint bikePos3 = new GeoPoint(latBike3, lonBike3);
-        bike3.setPosition(bikePos3);
-        bike3.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        map.getOverlays().add(bike3);
 
         ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-        items.add(new OverlayItem("Title", "Description", new GeoPoint(51.465,11.985))); // Lat/Lon decimal degrees
-
+        items.add(new OverlayItem("Bike", "Price: 1.000.000€", new GeoPoint(51.465,11.985))); // Lat/Lon decimal degrees
+int bikeId = 0;
 //the overlay
         ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
                 new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
                     @Override
                     public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-                        //do something
+
                         return true;
                     }
                     @Override
                     public boolean onItemLongPress(final int index, final OverlayItem item) {
+                        Intent myIntent = new Intent(MainActivity.this, bikeInfo.class);
+                        myIntent.putExtra("bikeId", 0); //Optional parameters
+                        MainActivity.this.startActivity(myIntent);
                         return false;
                     }
                 }, ctx);
@@ -157,6 +139,30 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void newBike(final String name, final double lat, final double lon, final double price, final String description, Context ctx){
+        ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+        items.add(new OverlayItem(name, "" + price, new GeoPoint(lat,lon))); // Lat/Lon decimal degrees
+        ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
+                new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                    @Override
+                    public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
 
+                        return true;
+                    }
+                    @Override
+                    public boolean onItemLongPress(final int index, final OverlayItem item) {
+                        Intent myIntent = new Intent(MainActivity.this, bikeInfo.class);
+                        myIntent.putExtra("name", name); //Optional parameters
+                        myIntent.putExtra("lat", lat);
+                        myIntent.putExtra("lon", lon);
+                        myIntent.putExtra("price", price);
+                        myIntent.putExtra("description", description);
+                        MainActivity.this.startActivity(myIntent);
+                        return false;
+                    }
+                }, ctx);
+        mOverlay.setFocusItemsOnTap(true);
+        map.getOverlays().add(mOverlay);
+    }
 
 }
