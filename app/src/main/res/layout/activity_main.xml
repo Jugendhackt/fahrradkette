@@ -32,4 +32,12 @@
         app:fabSize="normal"
         app:srcCompat="@android:drawable/ic_menu_add" />
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <org.osmdroid.views.MapView android:id="@+id/map"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
