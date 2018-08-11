@@ -1,6 +1,7 @@
 package org.jugendhackt.fahrradkette;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class NewPos extends AppCompatActivity {
 
@@ -24,6 +27,18 @@ public class NewPos extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        Button add_pos = (Button) findViewById(R.id.add_pos);
+        final Context context = this;
+        add_pos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GPSTracking gpsTracking = new GPSTracking(context);
+                TextView newPos_pos = (TextView) findViewById(R.id.newPos_Pos);
+                gpsTracking.qps_request_button(context);
+            }
+        });
+        GPSTracking qps = new GPSTracking(this);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -35,4 +50,9 @@ public class NewPos extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void newPos_Pos(String pos) {
+        TextView newPos_pos = (TextView) findViewById(R.id.newPos_Pos);
+        newPos_pos.setText(pos);
+        System.out.print(pos);
+    }
 }

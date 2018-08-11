@@ -55,8 +55,9 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
-        if (id == R.id.action_GPS_request) {
-
+        if (id == R.id.list) {
+            Intent intent = new Intent(this, List.class);
+            startActivity(intent);
             return true;
         }
 

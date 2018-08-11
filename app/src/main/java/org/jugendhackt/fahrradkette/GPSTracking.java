@@ -3,35 +3,44 @@ package org.jugendhackt.fahrradkette;
 import android.Manifest;
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.Toast;
 
-public class GPSTracking implements LocationListener {
+import static android.support.constraint.Constraints.TAG;
 
-    private MainActivity context;
+public class GPSTracking implements LocationListener {
+    public double[] position = new double[2];
+    private NewPos newPos;
+    private Context context;
     private LocationManager locationManager;
 
-    public GPSTracking(MainActivity context){
+    public GPSTracking(Context context){
         this.context = context;
+        Activity activity = (Activity)context;
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // Berechtigung gewährt
             trackingAllowed();
         }else{
             // Berechtigung NICHT gewährt
-            ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 // Berechtigung gewährt
                 trackingAllowed();
             }else{
                 // Berechtigung NICHT gewährt
-                ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
         }
     }
@@ -67,8 +76,12 @@ public class GPSTracking implements LocationListener {
     public void onLocationChanged(Location location) {
 
         String str = "Latitude: "+location.getLatitude()+"Longitude: "+location.getLongitude();
+        position[0] = location.getLatitude();
+        position[1] = location.getLongitude();
 
-        Toast.makeText(context, str, Toast.LENGTH_LONG).show();
+        newPos.newPos_Pos(position[0] + " | " + position[1]);
+        //Toast.makeText(context, str, Toast.LENGTH_LONG).show();
+
     }
 
     @Override
@@ -93,8 +106,37 @@ public class GPSTracking implements LocationListener {
 
     }
 
-    public void qps_request_button() {
-        //PendingIntent pendingIntent = new PendingIntent();
-        //locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, );
+    public double[] qps_request_button(Context newposcontext) {
+        newPos = (NewPos) newposcontext;
+        String srue = "Singel Update Location";
+        Intent updateIntent = new Intent(srue);
+        final PendingIntent singleUpatePI = PendingIntent.getBroadcast(context, 0, updateIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        BroadcastReceiver br = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d(TAG,"onReceive");
+                //unregister the receiver so that the application does not keep listening the broadcast even after the broadcast is received.
+                context.unregisterReceiver(this);
+
+                // get the location from the intent send in broadcast using the key - this step is very very important
+                String key = LocationManager.KEY_LOCATION_CHANGED;
+                Location location = (Location)intent.getExtras().get(key);
+
+                // Call the function required
+                if (location != null) {
+                    onLocationChanged(location);
+                }
+
+                // finally remove the updates for the pending intent
+                locationManager.removeUpdates(singleUpatePI);
+            }
+        };
+        context.registerReceiver(br, new IntentFilter(srue));
+        locationManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_LOW);
+        ContextCompat.checkSelfPermission(context,"android.permission.ACCESS_FINE_LOCATION");
+        locationManager.requestSingleUpdate(criteria, singleUpatePI);
+        return(position);
     }
 }

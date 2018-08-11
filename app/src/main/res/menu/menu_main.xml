@@ -9,7 +9,7 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_GPS_request"
+        android:id="@+id/list"
         android:orderInCategory="99"
-        android:title="@string/String_GPS_request" />
+        android:title="@string/list" />
 </menu>
