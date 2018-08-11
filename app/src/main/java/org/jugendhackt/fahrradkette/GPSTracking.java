@@ -1,6 +1,8 @@
 package org.jugendhackt.fahrradkette;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -13,17 +15,24 @@ import android.widget.Toast;
 
 public class GPSTracking implements LocationListener {
 
-    private Context context;
+    private MainActivity context;
     private LocationManager locationManager;
 
-    public GPSTracking(Context context){
+    public GPSTracking(MainActivity context){
         this.context = context;
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // Berechtigung gewährt
             trackingAllowed();
         }else{
             // Berechtigung NICHT gewährt
-
+            ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                // Berechtigung gewährt
+                trackingAllowed();
+            }else{
+                // Berechtigung NICHT gewährt
+                ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            }
         }
     }
 
@@ -43,10 +52,9 @@ public class GPSTracking implements LocationListener {
         //   Fourth(listener)   :  a {#link LocationListener} whose onLocationChanged(Location)
         //                         method will be called for each location update
 
-
-        locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER,
-                1000,   // 3 sec
-                1, this);
+    //    locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER,
+    //            1,   // 3 sec
+    //            0, this);
 
         /********* After registration onLocationChanged method  ********/
         /********* called periodically after each 3 sec ***********/
@@ -83,5 +91,10 @@ public class GPSTracking implements LocationListener {
     public void onStatusChanged(String provider, int status, Bundle extras) {
         // TODO Auto-generated method stub
 
+    }
+
+    public void qps_request_button() {
+        PendingIntent pendingIntent = new PendingIntent();
+        locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, );
     }
 }

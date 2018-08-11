@@ -41,8 +41,8 @@ public class GPSTrackin {
 
 
             locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER,
-                    1000,   // 3 sec
-                    1, this);
+                    1,   //millikunden
+                    0, this);
 
             /********* After registration onLocationChanged method  ********/
             /********* called periodically after each 3 sec ***********/
@@ -52,7 +52,7 @@ public class GPSTrackin {
         @Override
         public void onLocationChanged(Location location) {
 
-            String str = "Latitude: "+location.getLatitude()+"Longitude: "+location.getLongitude();
+            String str = "Breite: "+location.getLatitude()+" Länge: "+location.getLongitude();
 
             Toast.makeText(getBaseContext(), str, Toast.LENGTH_LONG).show();
         }
