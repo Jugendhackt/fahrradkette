@@ -42,6 +42,8 @@ public class NewPos extends AppCompatActivity {
             }
         });
         GPSTracking qps = new GPSTracking(this);
+
+        TextView codeAnzeige
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -57,5 +59,14 @@ public class NewPos extends AppCompatActivity {
         TextView newPospos = (TextView) findViewById(R.id.newPos_Pos);
         newPospos.setText(lat + ", " + lon);
 
+    }
+
+    public String randome_code() {
+        int[] arrCode = new int[4];
+        arrCode[0] = (int)(Math.random() * 10);
+        arrCode[1] = (int)(Math.random() * 10);
+        arrCode[2] = (int)(Math.random() * 10);
+        arrCode[3] = (int)(Math.random() * 10);
+        return arrCode[0] + "-" + arrCode[1] + "-" + arrCode[2] + "-" + arrCode[3];
     }
 }

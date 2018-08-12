@@ -187,12 +187,4 @@ int bikeId = 0;
         mOverlay.setFocusItemsOnTap(true);
         map.getOverlays().add(mOverlay);
     }
-
-    public void randome_code() {
-        int[] arrCode = new int[4];
-        arrCode[0] = (int)(Math.random() * 10);
-        arrCode[1] = (int)(Math.random() * 10);
-        arrCode[2] = (int)(Math.random() * 10);
-        arrCode[3] = (int)(Math.random() * 10);
-    }
 }

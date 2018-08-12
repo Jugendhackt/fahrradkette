@@ -14,4 +14,5 @@
     <string name="list">Liste alle Dinge</string>
     <string name="provder"></string>
     <string name="title_activity_list">Liste</string>
+    <string name="schlossPin"></string>
 </resources>

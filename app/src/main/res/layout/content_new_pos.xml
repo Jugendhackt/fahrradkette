@@ -43,12 +43,11 @@
         android:layout_height="wrap_content"
         android:text="@string/newPos_pin" />
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textViewCode"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="numberSigned" />
+        android:text="@string/schlossPin"/>
 
     <Button
         android:id="@+id/add_pos"
