@@ -42,5 +42,4 @@
         <activity android:name=".bikeInfo"></activity>
 
     </application>
-
 </manifest>

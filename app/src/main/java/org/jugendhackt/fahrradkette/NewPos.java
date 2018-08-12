@@ -38,7 +38,7 @@ public class NewPos extends AppCompatActivity {
                 TextView newPos_pos = (TextView) findViewById(R.id.newPos_Pos);
 
                 position = gpsTracking.qps_request_button(context);
-                newPos_Pos("" + position[0], "" + position[1]);
+                //newPos_Pos("" + position[0], "" + position[1]);
             }
         });
         GPSTracking qps = new GPSTracking(this);
@@ -53,7 +53,7 @@ public class NewPos extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void newPos_Pos(String lat, String lon) {
+    public void newPos_Pos(double lat, double lon) {
         TextView newPospos = (TextView) findViewById(R.id.newPos_Pos);
         newPospos.setText(lat + ", " + lon);
 

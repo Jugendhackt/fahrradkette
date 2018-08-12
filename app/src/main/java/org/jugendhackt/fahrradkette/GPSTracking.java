@@ -75,14 +75,14 @@ public class GPSTracking implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-/*
+
         String str = "Latitude: "+location.getLatitude()+"Longitude: "+location.getLongitude();
         position[0] = location.getLatitude();
         position[1] = location.getLongitude();
-
-        newPos.newPos_Pos(position[0] + " | " + position[1]);
+        String posstr = position[0] + " | " + position[1];
+        newPos.newPos_Pos(position[0],position[1]);
         //Toast.makeText(context, str, Toast.LENGTH_LONG).show();
-*/
+
     }
 
     @Override

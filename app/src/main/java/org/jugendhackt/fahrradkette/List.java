@@ -27,7 +27,6 @@ public class List extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        super.onCreate(savedInstanceState);      setContentView(R.layout.activity_list);
         simpleList = (ListView)findViewById(R.id.simpleListView);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_listview, R.id.textView, countryList);
         simpleList.setAdapter(arrayAdapter);
