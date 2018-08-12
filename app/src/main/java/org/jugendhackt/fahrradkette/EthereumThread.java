@@ -3,6 +3,7 @@ package org.jugendhackt.fahrradkette;
 import android.util.Log;
 
 import org.jugendhackt.fahrradkette.contracts.BikeContract;
+import org.web3j.abi.EventEncoder;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
@@ -18,6 +19,8 @@ import org.web3j.tx.Contract;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
+
+import rx.functions.Action1;
 
 public class EthereumThread extends Thread {
 
@@ -37,6 +40,7 @@ public class EthereumThread extends Thread {
                     DefaultBlockParameterName.LATEST).sendAsync().get();
             Log.d(MainActivity.TAG, "Balance:" + balance.getBalance().toString());
 
+            /*
             EthTransaction transaction = web3.ethGetTransactionByHash("0xded7a2ff08da4e9aaf62f2d9349f716ecf377ef31db67141a1e0c78d9536f226")
                     .sendAsync().get();
             Log.d(MainActivity.TAG, "From: " + transaction.getResult().getFrom());
@@ -44,16 +48,26 @@ public class EthereumThread extends Thread {
             BigInteger blockNum = web3.ethGetBlockByNumber(DefaultBlockParameterName.LATEST, false).send()
                     .getBlock().getNumber();
 
-            Log.d(MainActivity.TAG, "Latest block num:" + blockNum.toString());
+            Log.d(MainActivity.TAG, "Latest block num:" + blockNum.toString());*/
 
             Bike bike = new Bike(11.12, 50.1, 10, 235, "Mein Fahrrad 2",
                     "Besonderheiten");
 
-            Contract b = bike.getContractRemoteCall(web3, wallet).send();
+            BikeContract b = bike.getContractRemoteCall(web3, wallet).send();
             Log.d(MainActivity.TAG, b.getContractAddress());
 
-            //EthFilter filter = new EthFilter(DefaultBlockParameterName.EARLIEST,
-            //        DefaultBlockParameterName.LATEST, b.getContractAddress()).addSingleTopic("");
+            String encodedEventSignature = EventEncoder.encode(b.NEWBIKE_EVENT);
+
+            EthFilter filter = new EthFilter(DefaultBlockParameterName.EARLIEST,
+                    DefaultBlockParameterName.LATEST, b.getContractAddress().substring(2));
+            filter.addSingleTopic(encodedEventSignature);
+
+            web3.ethLogObservable(filter).subscribe(new Action1<org.web3j.protocol.core.methods.response.Log>() {
+                @Override
+                public void call(org.web3j.protocol.core.methods.response.Log log) {
+                    Log.d(MainActivity.TAG, "Found event: " + log.getTopics().toString());
+                }
+            });
 
             Log.d(MainActivity.TAG, String.valueOf(b.isValid()));
 

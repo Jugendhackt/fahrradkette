@@ -1,0 +1,3 @@
+solc bike.sol --bin --abi --optimize -o build/ --overwrite
+
+web3j solidity generate build/Bike.bin build/Bike.abi -o ./ -p org.jugendhackt.fahrradkette
