@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import static android.support.constraint.Constraints.TAG;
@@ -74,14 +75,14 @@ public class GPSTracking implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-
+/*
         String str = "Latitude: "+location.getLatitude()+"Longitude: "+location.getLongitude();
         position[0] = location.getLatitude();
         position[1] = location.getLongitude();
 
         newPos.newPos_Pos(position[0] + " | " + position[1]);
         //Toast.makeText(context, str, Toast.LENGTH_LONG).show();
-
+*/
     }
 
     @Override
@@ -125,6 +126,12 @@ public class GPSTracking implements LocationListener {
                 // Call the function required
                 if (location != null) {
                     onLocationChanged(location);
+                    String str = "Latitude: "+location.getLatitude()+"Longitude: "+location.getLongitude();
+                    position[0] = location.getLatitude();
+                    position[1] = location.getLongitude();
+
+                    //newPos.newPos_Pos(position[0] + " | " + position[1]);
+
                 }
 
                 // finally remove the updates for the pending intent

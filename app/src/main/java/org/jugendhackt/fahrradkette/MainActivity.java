@@ -109,7 +109,11 @@ int bikeId = 0;
         mOverlay.setFocusItemsOnTap(true);
 
         map.getOverlays().add(mOverlay);
+        newBike("biky", 51.475, 11.975, 1234, "nice Bike", ctx);
     }
+
+
+
 
     public void onResume(){
         super.onResume();
@@ -171,10 +175,10 @@ int bikeId = 0;
                     @Override
                     public boolean onItemLongPress(final int index, final OverlayItem item) {
                         Intent myIntent = new Intent(MainActivity.this, bikeInfo.class);
-                        myIntent.putExtra("name", name); //Optional parameters
-                        myIntent.putExtra("lat", lat);
-                        myIntent.putExtra("lon", lon);
-                        myIntent.putExtra("price", price);
+                        myIntent.putExtra("name", "Name: " + name); //Optional parameters
+                        myIntent.putExtra("lat", "Latitude: " + lat);
+                        myIntent.putExtra("lon", "Longitude:" + lon);
+                        myIntent.putExtra("price", "Preis: " + price);
                         myIntent.putExtra("description", description);
                         MainActivity.this.startActivity(myIntent);
                         return false;
