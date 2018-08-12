@@ -75,14 +75,14 @@ public class GPSTracking implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-/*
+
         String str = "Latitude: "+location.getLatitude()+"Longitude: "+location.getLongitude();
         position[0] = location.getLatitude();
         position[1] = location.getLongitude();
 
-        newPos.newPos_Pos(position[0] + " | " + position[1]);
+        newPos.newPos_Pos(position);
         //Toast.makeText(context, str, Toast.LENGTH_LONG).show();
-*/
+
     }
 
     @Override
@@ -127,10 +127,11 @@ public class GPSTracking implements LocationListener {
                 if (location != null) {
                     onLocationChanged(location);
                     String str = "Latitude: "+location.getLatitude()+"Longitude: "+location.getLongitude();
-                    position[0] = location.getLatitude();
+                    //position[0] = location.getLatitude();
                     position[1] = location.getLongitude();
+                    position[0] = 123456;
 
-                    //newPos.newPos_Pos(position[0] + " | " + position[1]);
+                    //newPos.newPos_Pos(position);
 
                 }
 
@@ -144,6 +145,8 @@ public class GPSTracking implements LocationListener {
         criteria.setAccuracy(Criteria.ACCURACY_LOW);
         ContextCompat.checkSelfPermission(context,"android.permission.ACCESS_FINE_LOCATION");
         locationManager.requestSingleUpdate(criteria, singleUpatePI);
+        //position[0] = 654321;
+
         return(position);
     }
 }

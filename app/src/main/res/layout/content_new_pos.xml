@@ -25,7 +25,7 @@
         android:inputType="text|textAutoComplete" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/money"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/newPos_money" />
@@ -44,7 +44,7 @@
         android:text="@string/newPos_pin" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/newPos_pin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -62,9 +62,18 @@
         app:layout_constraintTop_toBottomOf="@+id/editText3" />
 
     <TextView
-        android:id="@+id/newPos_Pos"
+        android:id="@+id/newPos_lat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="number"
+        android:text="Aktuelle Position"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/newPos_lon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
         android:text="Aktuelle Position"
         android:textSize="12sp" />
 
@@ -82,7 +91,7 @@
         android:inputType="textMultiLine" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/add_bike"
         android:layout_width="match_parent"
         android:layout_height="62dp"
         android:layout_marginBottom="204dp"

@@ -17,6 +17,7 @@ public class bikeInfo extends AppCompatActivity {
         TextView name = (TextView) findViewById(R.id.name);
         TextView lat = (TextView) findViewById(R.id.lat);
         TextView lon = (TextView) findViewById(R.id.lon);
+        //TextView pin = (TextView) findViewById(R.id.pin);
         TextView price = (TextView) findViewById(R.id.price);
         Button back = (Button) findViewById(R.id.back);
         Button rent = (Button) findViewById(R.id.rent);
@@ -24,6 +25,7 @@ public class bikeInfo extends AppCompatActivity {
         name.setText(intent.getStringExtra("name")); //if it's a string you stored.
         lat.setText(intent.getStringExtra("lat"));
         lon.setText(intent.getStringExtra("lon"));
+        //pin.setText(intent.getStringExtra("pin"));
         price.setText(intent.getStringExtra("price"));
 
         back.setOnClickListener(new View.OnClickListener(){

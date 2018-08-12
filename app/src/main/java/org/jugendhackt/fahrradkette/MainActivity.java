@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Context ctx = getApplicationContext();
+
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -109,7 +110,7 @@ int bikeId = 0;
         mOverlay.setFocusItemsOnTap(true);
 
         map.getOverlays().add(mOverlay);
-        newBike("biky", 51.475, 11.975, 1234, "nice Bike", ctx);
+        //newBike("biky", 51.475, 11.975, 1234, 3769, "nice Bike");
     }
 
 
@@ -162,7 +163,7 @@ int bikeId = 0;
         return super.onOptionsItemSelected(item);
     }
 
-    public void newBike(final String name, final double lat, final double lon, final double price, final String description, Context ctx){
+    public void newBike(final String name, final double lat, final double lon, final double price, final double pin, final String description){
         ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
         items.add(new OverlayItem(name, "" + price, new GeoPoint(lat,lon))); // Lat/Lon decimal degrees
         ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
@@ -179,11 +180,12 @@ int bikeId = 0;
                         myIntent.putExtra("lat", "Latitude: " + lat);
                         myIntent.putExtra("lon", "Longitude:" + lon);
                         myIntent.putExtra("price", "Preis: " + price);
+                        myIntent.putExtra("pin", "Pin:" + pin);
                         myIntent.putExtra("description", description);
                         MainActivity.this.startActivity(myIntent);
                         return false;
                     }
-                }, ctx);
+                }, getApplicationContext());
         mOverlay.setFocusItemsOnTap(true);
         map.getOverlays().add(mOverlay);
     }
