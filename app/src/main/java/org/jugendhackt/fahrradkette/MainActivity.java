@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -36,6 +37,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     MapView map = null;
+    GPSTracking qps;
+
     double latPos = 51.47931;
     double lonPos = 11.99317;
     double latBike0 = 51.48991;
@@ -46,9 +49,13 @@ public class MainActivity extends AppCompatActivity {
     double lonBike2 = 11.98257;
     double latBike3 = 51.46971;
     double lonBike3 = 12.01;
+
     MyLocationNewOverlay mLocationOverlay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        qps = new GPSTracking(this);
+
+        final Context contex = this;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -66,14 +73,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        FloatingActionButton mapCenter = (FloatingActionButton) findViewById(R.id.mapCenter);
+        mapCenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                qps.qps_request_button(contex, 1);
+            }
+        });
 
-        GPSTracking qps = new GPSTracking(this);
-
-
-
-
+        //qps.qps_request_button(contex, 1);
         map = (MapView) findViewById(R.id.map);
-        map.setTileSource(TileSourceFactory.MAPNIK);
+        /*map.setTileSource(TileSourceFactory.MAPNIK);
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
         IMapController mapController = map.getController();
@@ -84,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         GeoPoint startPoint = new GeoPoint(latPos, lonPos);
 
         mapController.setCenter(startPoint);
+*/
 
 
 
@@ -188,4 +199,17 @@ int bikeId = 0;
         map.getOverlays().add(mOverlay);
     }
 
+    public void mapCenter(double lat, double lon) {
+        map = (MapView) findViewById(R.id.map);
+        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.setBuiltInZoomControls(true);
+        map.setMultiTouchControls(true);
+        IMapController mapController = map.getController();
+        mapController.setZoom(16);
+        this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this),map);
+        this.mLocationOverlay.enableMyLocation();
+        map.getOverlays().add(this.mLocationOverlay);
+        GeoPoint startPoint = new GeoPoint(latPos, lonPos);
+        mapController.setCenter(startPoint);
+    }
 }

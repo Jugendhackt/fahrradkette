@@ -15,6 +15,8 @@ public class List extends AppCompatActivity {
 
     ListView simpleList;
     String countryList[] = {"India", "China", "australia", "Portugle", "America", "NewZealand"};
+    String[] mobileArray = {"Android","IPhone","WindowsMobile","Blackberry",
+            "WebOS","Ubuntu","Windows7","Max OS X"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +29,15 @@ public class List extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        simpleList = (ListView)findViewById(R.id.simpleListView);
+        /*simpleList = (ListView)findViewById(R.id.simpleListView);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_listview, R.id.textView, countryList);
-        simpleList.setAdapter(arrayAdapter);
+        simpleList.setAdapter(arrayAdapter);*/
+
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,
+                R.layout.activity_listview, mobileArray);
+
+        ListView listView = (ListView) findViewById(R.id.mobile_list);
+        listView.setAdapter(adapter);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

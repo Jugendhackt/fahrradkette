@@ -24,6 +24,7 @@ import static android.support.constraint.Constraints.TAG;
 public class GPSTracking implements LocationListener {
     public double[] position = new double[2];
     private NewPos newPos;
+    private MainActivity mainActivity;
     private Context context;
     private LocationManager locationManager;
 
@@ -81,6 +82,7 @@ public class GPSTracking implements LocationListener {
         position[1] = location.getLongitude();
         String posstr = position[0] + " | " + position[1];
         newPos.newPos_Pos(position[0],position[1]);
+        mainActivity.mapCenter(position[0],position[1]);
         //Toast.makeText(context, str, Toast.LENGTH_LONG).show();
 
     }
@@ -107,8 +109,7 @@ public class GPSTracking implements LocationListener {
 
     }
 
-    public double[] qps_request_button(Context newposcontext) {
-        newPos = (NewPos) newposcontext;
+    public double[] qps_request_button(final Context newposcontext, final int site) {
         String srue = "Singel Update Location";
         Intent updateIntent = new Intent(srue);
         final PendingIntent singleUpatePI = PendingIntent.getBroadcast(context, 0, updateIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -124,12 +125,24 @@ public class GPSTracking implements LocationListener {
                 Location location = (Location)intent.getExtras().get(key);
 
                 // Call the function required
-                if (location != null) {
-                    onLocationChanged(location);
+                if (location != null && site == 1) {
+                    mainActivity = (MainActivity) newposcontext;
+                    //onLocationChanged(location);
                     String str = "Latitude: "+location.getLatitude()+"Longitude: "+location.getLongitude();
                     position[0] = location.getLatitude();
                     position[1] = location.getLongitude();
+                    mainActivity.mapCenter(position[0],position[1]);
+                    //newPos.newPos_Pos(position[0] + " | " + position[1]);
 
+                }
+
+                if (location != null && site == 2) {
+                    newPos = (NewPos) newposcontext;
+                    //onLocationChanged(location);
+                    String str = "Latitude: "+location.getLatitude()+"Longitude: "+location.getLongitude();
+                    position[0] = location.getLatitude();
+                    position[1] = location.getLongitude();
+                    newPos.newPos_Pos(position[0],position[1]);
                     //newPos.newPos_Pos(position[0] + " | " + position[1]);
 
                 }

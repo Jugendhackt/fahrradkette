@@ -37,7 +37,7 @@ public class NewPos extends AppCompatActivity {
                 GPSTracking gpsTracking = new GPSTracking(context);
                 TextView newPos_pos = (TextView) findViewById(R.id.newPos_Pos);
 
-                position = gpsTracking.qps_request_button(context);
+                position = gpsTracking.qps_request_button(context, 2);
                 //newPos_Pos("" + position[0], "" + position[1]);
             }
         });
