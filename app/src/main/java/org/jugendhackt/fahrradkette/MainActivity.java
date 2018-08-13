@@ -6,6 +6,7 @@ import android.app.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 
 import android.os.Bundle;
@@ -53,8 +54,19 @@ public class MainActivity extends AppCompatActivity {
     MyLocationNewOverlay mLocationOverlay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        qps = new GPSTracking(this);
 
+        //Speicher berechtigung Abfrage (Speicher wird für Map benötigt)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "True",
+                    Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "False",
+                    Toast.LENGTH_SHORT).show();
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+
+        qps = new GPSTracking(this);
         final Context contex = this;
 
         super.onCreate(savedInstanceState);

@@ -31,6 +31,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:backgroundTint="@android:color/black"
+        app:fabCustomSize="@android:dimen/notification_large_icon_width"
         app:fabSize="normal"
         app:srcCompat="@android:drawable/ic_menu_add" />
 
@@ -39,15 +40,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="right|center"
+        app:fabCustomSize="@android:dimen/app_icon_size"
+        app:fabSize="normal"
+        app:layout_anchor="@+id/fab"
+        app:layout_anchorGravity="right|top"
         app:srcCompat="@android:drawable/btn_radio" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
-        <org.osmdroid.views.MapView android:id="@+id/map"
+
+        <org.osmdroid.views.MapView
+            android:id="@+id/map"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
     </LinearLayout>

@@ -16,7 +16,7 @@ import android.widget.Toast;
 public class List extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ListView exampleListView;
-    private String[] staedte = new String[] {"Bike - 40m", "Bike1 - 230m", "Alex Altes Bike - 500m", "Mias Fahrrad - 2km"};
+    private String[] bikes = new String[] {"Bike - 40m", "Bike1 - 230m", "Alex Altes Bike - 500m", "Mias Fahrrad - 2km"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +32,13 @@ public class List extends AppCompatActivity implements AdapterView.OnItemClickLi
         exampleListView = (ListView) findViewById(R.id.mobile_list);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, staedte);
+                android.R.layout.simple_list_item_1, bikes);
         exampleListView.setAdapter(adapter);
         exampleListView.setOnItemClickListener(this);
     }
 
     public void onItemClick(AdapterView<?> lV, View view, int pos, long id) {
-        Toast.makeText(this, "Stadt " + staedte[pos] + " ausgewählt!",
+        Toast.makeText(this, "Stadt " + bikes[pos] + " ausgewählt!",
                 Toast.LENGTH_SHORT).show();
     }
 
