@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //qps.qps_request_button(contex, 1);
+        qps.qps_request_button(contex, 1);
         map = (MapView) findViewById(R.id.map);
         /*map.setTileSource(TileSourceFactory.MAPNIK);
         map.setBuiltInZoomControls(true);
