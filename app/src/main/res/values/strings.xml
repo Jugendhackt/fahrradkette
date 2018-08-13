@@ -7,7 +7,7 @@
     <string name="newPos_finish">Veröffenlichen</string>
     <string name="newPos_specialities">Besonderheiten</string>
     <string name="newPos_money">Gewinschter Preis (Bitte Fair sein)</string>
-    <string name="newPos_pin">Fahrradschloss Pin</string>
+    <string name="newPos_pin">Fahrradschloss Pin (eigenen oder generirten pin nutzen)</string>
     <string name="title_activity_info">Info</string>
     <string name="Info_info">Diese App wurde \n von 4 Entwickern entwickelt.\n Ende</string>
 

@@ -41,6 +41,10 @@ public class NewPos extends AppCompatActivity {
                 //newPos_Pos("" + position[0], "" + position[1]);
             }
         });
+
+        TextView newPospos = (TextView) findViewById(R.id.newPos_Pin);
+        newPospos.setText(randome_code());
+
         GPSTracking qps = new GPSTracking(this);
     }
     @Override
@@ -57,5 +61,13 @@ public class NewPos extends AppCompatActivity {
         TextView newPospos = (TextView) findViewById(R.id.newPos_Pos);
         newPospos.setText(lat + ", " + lon);
 
+    }
+
+    public String randome_code() {
+        String code = "";
+        for(int i = 4; i > 0; i--){
+            code += (int)(Math.random() * 10) + "";
+        }
+        return code;
     }
 }

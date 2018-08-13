@@ -3,6 +3,7 @@ package org.jugendhackt.fahrradkette;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,12 +27,19 @@ public class bikeInfo extends AppCompatActivity {
         lon.setText(intent.getStringExtra("lon"));
         price.setText(intent.getStringExtra("price"));
 
-        back.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v) {
-                Intent myIntent = new Intent(bikeInfo.this, MainActivity.class);
-                bikeInfo.this.startActivity(myIntent);
-            }
-        });
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // close this activity and return to preview activity (if there is any)
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

@@ -44,7 +44,7 @@
         android:text="@string/newPos_pin" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/newPos_Pin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
