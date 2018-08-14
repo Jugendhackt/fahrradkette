@@ -13,4 +13,9 @@
         android:id="@+id/alexList"
         android:orderInCategory="99"
         android:title="@string/list" />
+
+    <item
+        android:id="@+id/myBikes"
+        android:orderInCategory="99"
+        android:title="@string/myBikes" />
 </menu>

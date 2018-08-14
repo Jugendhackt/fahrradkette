@@ -1,17 +1,30 @@
 <resources>
     <string name="app_name">Fahrradkette</string>
-    <string name="action_settings">Infos</string>
     <string name="title_activity_new_pos">Neues Fahrad hinzufügen</string>
     <string name="newPos_addPos">Standort hinzufügen</string>
     <string name="newPos_nameThing">Name des Dings</string>
     <string name="newPos_finish">Veröffenlichen</string>
     <string name="newPos_specialities">Besonderheiten</string>
+    <string name="updatePos_commentar">Anmerkungen/Meinung/Beschädigung hinzufügen</string>
     <string name="newPos_money">Gewinschter Preis (Bitte Fair sein)</string>
     <string name="newPos_pin">Fahrradschloss Pin (eigenen oder generirten pin nutzen)</string>
     <string name="title_activity_info">Info</string>
+    <string name="toUpdatePos">Oder ein neues Fahrad hinzufügen</string>
     <string name="Info_info">Diese App wurde \n von 4 Entwickern entwickelt.\n Ende</string>
 
-    <string name="list">Liste alle Dinge</string>
-    <string name="provder"></string>
+    <string name="list">Liste aller Fahrräder in der Nähe</string>
+    <string name="action_settings">Infos</string>
+    <string name="myBikes">Meine Fahrräder</string>
+
+    <string name="provder">provder</string>
     <string name="title_activity_list">Liste</string>
+    <string name="title_activity_my_bikes">Meine Fahrräder</string>
+    <string name="title_activity_update_pos">Fahrad wieder abgeben</string>
+
+    <string-array name="updatePos_bikes">
+        <item>Fahrad1</item>
+        <item>Fahrad2</item>
+        <item>Fahrad3</item>
+    </string-array>
+
 </resources>

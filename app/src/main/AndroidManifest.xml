@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,7 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".NewPos"
             android:label="@string/title_activity_new_pos"
@@ -37,9 +35,16 @@
         <activity
             android:name=".List"
             android:label="@string/title_activity_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".bikeInfo" />
+        <activity
+            android:name=".MyBikes"
+            android:label="@string/title_activity_my_bikes"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UpdatePos"
+            android:label="@string/title_activity_update_pos"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-
-        <activity android:name=".bikeInfo"></activity>
-
     </application>
+
 </manifest>

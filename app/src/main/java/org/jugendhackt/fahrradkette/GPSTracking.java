@@ -25,6 +25,7 @@ public class GPSTracking implements LocationListener {
     public double[] position = new double[2];
     private NewPos newPos;
     private MainActivity mainActivity;
+    private UpdatePos updatePos;
     private Context context;
     private LocationManager locationManager;
 
@@ -133,7 +134,6 @@ public class GPSTracking implements LocationListener {
                     position[1] = location.getLongitude();
                     mainActivity.mapCenter(position[0],position[1]);
                     //newPos.newPos_Pos(position[0] + " | " + position[1]);
-
                 }
 
                 if (location != null && site == 2) {
@@ -144,7 +144,16 @@ public class GPSTracking implements LocationListener {
                     position[1] = location.getLongitude();
                     newPos.newPos_Pos(position[0],position[1]);
                     //newPos.newPos_Pos(position[0] + " | " + position[1]);
+                }
 
+                if (location != null && site == 3) {
+                    updatePos = (UpdatePos) newposcontext;
+                    //onLocationChanged(location);
+                    String str = "Latitude: "+location.getLatitude()+"Longitude: "+location.getLongitude();
+                    position[0] = location.getLatitude();
+                    position[1] = location.getLongitude();
+                    updatePos.newPos_Pos(position[0],position[1]);
+                    //newPos.newPos_Pos(position[0] + " | " + position[1]);
                 }
 
                 // finally remove the updates for the pending intent

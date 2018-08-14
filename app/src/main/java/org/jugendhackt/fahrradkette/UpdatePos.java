@@ -3,41 +3,51 @@ package org.jugendhackt.fahrradkette;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class NewPos extends AppCompatActivity{
+public class UpdatePos extends AppCompatActivity {
+
     double lon = 0;
     double lat = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_pos);
+        setContentView(R.layout.activity_update_pos);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // add back arrow to toolbar
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        final Button newPos_finish = (Button) findViewById(R.id.newPos_finish);
+        Button updatePos_finish = (Button) findViewById(R.id.updatePos_finish);
         Button add_pos = (Button) findViewById(R.id.add_pos);
-        final TextView newPos_name = (TextView) findViewById(R.id.newPos_name);
-        final TextView newPos_money = (TextView) findViewById(R.id.newPos_money);
-        TextView newPos_Pin = (TextView) findViewById(R.id.newPos_Pin);
-        final TextView newPos_specialities = (TextView) findViewById(R.id.newPos_specialities);
-
-        newPos_name.setText("");
-        newPos_money.setText("");
-        newPos_specialities.setText("");
+        Button toUpdatePos = (Button) findViewById(R.id.toUpdatePos);
+        TextView updatePos_commentar = (TextView) findViewById(R.id.updatePos_commentar);
+        TextView updatePos_Pin = (TextView) findViewById(R.id.updatePos_Pin);
+        final TextView updatePos_Pos = (TextView) findViewById(R.id.updatePos_Pos);
+        Spinner newPos_Pin = (Spinner) findViewById(R.id.updatePos_bikes);
 
         final Context context = this;
         add_pos.setOnClickListener(new View.OnClickListener() {
@@ -47,41 +57,50 @@ public class NewPos extends AppCompatActivity{
                 GPSTracking gpsTracking = new GPSTracking(context);
                 TextView newPos_pos = (TextView) findViewById(R.id.newPos_Pos);
 
-                position = gpsTracking.qps_request_button(context, 2);
+                position = gpsTracking.qps_request_button(context, 3);
                 //newPos_Pos("" + position[0], "" + position[1]);
             }
         });
 
-        newPos_finish.setOnClickListener(new View.OnClickListener() {
+        updatePos_finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(lon == 0 && lat == 0){
                     Toast.makeText(context, "Bitte füren sie ihre Position noch hinzu", Toast.LENGTH_SHORT).show();
-                }else if(newPos_name.getText().equals("") && newPos_money.getText().equals("")){
+                }else if(true){
                     Toast.makeText(context, "Bitte tragen sie noch ihren gewünschten Preis und den Namen ihres Fahraden ein", Toast.LENGTH_SHORT).show();
-                    }else {
+                }else {
                     Toast.makeText(context, "Irgendwann könnte dieser eintrag jetzt in der Blockchain landen", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
         });
 
-        TextView newPospos = (TextView) findViewById(R.id.newPos_Pin);
-        newPospos.setText(randome_code());
+        final Intent intent = new Intent(this, NewPos.class);
+        toUpdatePos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(intent);
+            }
+        });
+
+        updatePos_Pin.setText(randome_code());
+
+        GPSTracking qps = new GPSTracking(this);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle arrow click here
         if (item.getItemId() == android.R.id.home) {
             finish(); // close this activity and return to preview activity (if there is any)
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     public void newPos_Pos(double nlat, double nlon) {
-        TextView newPospos = (TextView) findViewById(R.id.newPos_Pos);
-        newPospos.setText(nlat + ", " + nlon);
+        TextView updatepospos = (TextView) findViewById(R.id.updatePos_Pos);
+        updatepospos.setText(nlat + ", " + nlon);
         lat = nlat;
         lon = nlon;
 
@@ -94,4 +113,5 @@ public class NewPos extends AppCompatActivity{
         }
         return code;
     }
+
 }

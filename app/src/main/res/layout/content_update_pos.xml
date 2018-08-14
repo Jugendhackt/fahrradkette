@@ -6,36 +6,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".NewPos"
-    tools:showIn="@layout/activity_new_pos">
+    tools:context=".UpdatePos"
+    tools:showIn="@layout/activity_update_pos">
 
-    <TextView
-        android:id="@+id/textView"
+    <Spinner
+        android:id="@+id/updatePos_bikes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="top"
-        android:text="@string/newPos_nameThing" />
-
-    <EditText
-        android:id="@+id/newPos_name"
-        android:layout_width="413dp"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:ems="10"
-        android:inputType="text|textAutoComplete" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/newPos_money" />
-
-    <EditText
-        android:id="@+id/newPos_money"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="numberDecimal" />
+        android:entries="@array/updatePos_bikes"
+        android:spinnerMode="dialog" />
 
     <TextView
         android:id="@+id/textView4"
@@ -44,7 +23,7 @@
         android:text="@string/newPos_pin" />
 
     <EditText
-        android:id="@+id/newPos_Pin"
+        android:id="@+id/updatePos_Pin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -62,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editText3" />
 
     <TextView
-        android:id="@+id/newPos_Pos"
+        android:id="@+id/updatePos_Pos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Aktuelle Position"
@@ -72,22 +51,28 @@
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/newPos_specialities" />
+        android:text="@string/updatePos_commentar" />
 
     <EditText
-        android:id="@+id/newPos_specialities"
+        android:id="@+id/updatePos_commentar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textMultiLine" />
 
     <Button
-        android:id="@+id/newPos_finish"
+        android:id="@+id/updatePos_finish"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/newPos_finish"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="20sp"
         android:textStyle="normal|bold" />
+
+    <Button
+        android:id="@+id/toUpdatePos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/toUpdatePos" />
 
 </LinearLayout>

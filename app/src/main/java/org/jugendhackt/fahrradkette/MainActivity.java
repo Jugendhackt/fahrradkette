@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     double latBike3 = 51.46971;
     double lonBike3 = 12.01;
 
+
     MyLocationNewOverlay mLocationOverlay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        final Intent intent = new Intent(this, NewPos.class);
+        final Intent intent = new Intent(this, UpdatePos.class);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -95,20 +96,6 @@ public class MainActivity extends AppCompatActivity {
 
         qps.qps_request_button(contex, 1);
         map = (MapView) findViewById(R.id.map);
-        /*map.setTileSource(TileSourceFactory.MAPNIK);
-        map.setBuiltInZoomControls(true);
-        map.setMultiTouchControls(true);
-        IMapController mapController = map.getController();
-        mapController.setZoom(16);
-        this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this),map);
-        this.mLocationOverlay.enableMyLocation();
-        map.getOverlays().add(this.mLocationOverlay);
-        GeoPoint startPoint = new GeoPoint(latPos, lonPos);
-
-        mapController.setCenter(startPoint);
-*/
-
-
 
         ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
         items.add(new OverlayItem("Bike", "Price: 1.000.000€", new GeoPoint(51.465,11.985))); // Lat/Lon decimal degrees
@@ -178,6 +165,12 @@ int bikeId = 0;
 
         if (id == R.id.alexList) {
             Intent intent = new Intent(this, List.class);
+            startActivity(intent);
+            return true;
+        }
+
+        if (id == R.id.myBikes) {
+            Intent intent = new Intent(this, MyBikes.class);
             startActivity(intent);
             return true;
         }

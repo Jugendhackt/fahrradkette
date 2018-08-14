@@ -41,5 +41,4 @@ public class bikeInfo extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }
