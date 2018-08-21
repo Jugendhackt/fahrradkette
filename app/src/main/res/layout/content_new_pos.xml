@@ -90,4 +90,10 @@
         android:textSize="20sp"
         android:textStyle="normal|bold" />
 
+    <ImageView
+        android:id="@+id/mImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_launcher" />
+
 </LinearLayout>

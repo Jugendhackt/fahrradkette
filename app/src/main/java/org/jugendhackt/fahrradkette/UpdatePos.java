@@ -67,7 +67,7 @@ public class UpdatePos extends AppCompatActivity {
             public void onClick(View view) {
                 if(lon == 0 && lat == 0){
                     Toast.makeText(context, "Bitte füren sie ihre Position noch hinzu", Toast.LENGTH_SHORT).show();
-                }else if(true){
+                }else if(false){
                     Toast.makeText(context, "Bitte tragen sie noch ihren gewünschten Preis und den Namen ihres Fahraden ein", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(context, "Irgendwann könnte dieser eintrag jetzt in der Blockchain landen", Toast.LENGTH_SHORT).show();

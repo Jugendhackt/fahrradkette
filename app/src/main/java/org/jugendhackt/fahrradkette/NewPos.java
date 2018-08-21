@@ -2,18 +2,24 @@ package org.jugendhackt.fahrradkette;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class NewPos extends AppCompatActivity{
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     double lon = 0;
     double lat = 0;
+
+    ImageView mImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +27,8 @@ public class NewPos extends AppCompatActivity{
         setContentView(R.layout.activity_new_pos);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mImageView = (ImageView) findViewById(R.id.mImageView);
 
         // add back arrow to toolbar
         if (getSupportActionBar() != null){
@@ -48,6 +56,8 @@ public class NewPos extends AppCompatActivity{
                 TextView newPos_pos = (TextView) findViewById(R.id.newPos_Pos);
 
                 position = gpsTracking.qps_request_button(context, 2);
+
+                dispatchTakePictureIntent();
                 //newPos_Pos("" + position[0], "" + position[1]);
             }
         });
@@ -93,5 +103,21 @@ public class NewPos extends AppCompatActivity{
             code += (int)(Math.random() * 10) + "";
         }
         return code;
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            mImageView.setImageBitmap(imageBitmap);
+        }
     }
 }
