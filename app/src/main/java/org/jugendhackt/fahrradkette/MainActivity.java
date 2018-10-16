@@ -1,5 +1,6 @@
 package org.jugendhackt.fahrradkette;
 
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.Manifest;
 import android.app.Activity;
@@ -22,6 +23,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -35,11 +44,20 @@ import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     MapView map = null;
     GPSTracking qps;
+
+    public static ArrayList<Bikes> bikeList = new ArrayList<Bikes>();
 
     double latPos = 51.47931;
     double lonPos = 11.99317;
@@ -96,13 +114,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        for (int i = 4;i>0;i--){
+            Bikes bikes = new Bikes();
+            bikeList.add(bikes);
+        }
+
+        for(int i = bikeList.size(); i >0; i--){
+
+        }
+
         qps.qps_request_button(contex, 1);
         map = (MapView) findViewById(R.id.map);
 
         ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
         items.add(new OverlayItem("Bike", "Price: 1.000.000€", new GeoPoint(51.465,11.985))); // Lat/Lon decimal degrees
-int bikeId = 0;
-//the overlay
+        apiRest(lonPos,latPos,900000000);
+        int bikeId = 0;
+        //the overlay
         ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
                 new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
                     @Override
@@ -123,8 +151,6 @@ int bikeId = 0;
         map.getOverlays().add(mOverlay);
         newBike("biky", 51.475, 11.975, 1234, "nice Bike", ctx);
     }
-
-
 
 
     public void onResume(){
@@ -204,6 +230,73 @@ int bikeId = 0;
                 }, ctx);
         mOverlay.setFocusItemsOnTap(true);
         map.getOverlays().add(mOverlay);
+    }
+
+    private static final String apiUrl =
+            "http://tarf.ddns.net:8545/api/bikes/nearby";
+
+    public static JSONObject restApi(Context context, double lat, double lon){
+        try {
+            URL url = new URL(String.format(apiUrl, lat,lon));
+            HttpURLConnection connection =
+                    (HttpURLConnection)url.openConnection();
+
+            //connection.addRequestProperty("x-api-key",context.getString(R.string.open_weather_maps_app_id));
+
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream()));
+
+            StringBuffer json = new StringBuffer(1024);
+            String tmp="";
+            while((tmp=reader.readLine())!=null)
+                json.append(tmp).append("\n");
+            reader.close();
+
+            JSONObject data = new JSONObject(json.toString());
+
+            // This value will be 404 if the request was not
+            // successful
+            if(data.getInt("cod") != 200){
+                Log.e("FK","FEHLER");
+                return null;
+            }
+
+            return data;
+        }catch(Exception e){
+            Log.e("FK",e.toString());
+            return null;
+        }
+    }
+
+    public void apiRest(double lon,double lat, int radius){
+        String url = apiUrl;
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        Map<String, String> params = new HashMap();
+        params.put("lat", Double.toString(lat));
+        params.put("lon", Double.toString(lon));
+
+        JSONObject parameters = new JSONObject(params);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        //mTextView.setText("Response: " + response.toString());
+                        Log.e("FKK",response.toString());
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+
+                    }
+                });
+
+// Access the RequestQueue through your singleton class.
+        queue.add(jsonObjectRequest);
     }
 
     public void mapCenter(double lat, double lon) {

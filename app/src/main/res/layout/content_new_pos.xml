@@ -90,6 +90,17 @@
         android:textSize="20sp"
         android:textStyle="normal|bold" />
 
+    <Button
+        android:id="@+id/add_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="@string/newPos_addimage"
+        app:layout_constraintBottom_toTopOf="@+id/updatePos_finish"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+
     <ImageView
         android:id="@+id/mImageView"
         android:layout_width="match_parent"

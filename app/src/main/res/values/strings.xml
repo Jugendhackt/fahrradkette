@@ -4,6 +4,7 @@
     <string name="newPos_addPos">Standort hinzufügen</string>
     <string name="newPos_nameThing">Name des Dings</string>
     <string name="newPos_finish">Veröffenlichen</string>
+    <string name="newPos_addimage">Bild hinzufügen</string>
     <string name="newPos_specialities">Besonderheiten</string>
     <string name="updatePos_commentar">Anmerkungen/Meinung/Beschädigung hinzufügen</string>
     <string name="newPos_money">Gewinschter Preis (Bitte Fair sein)</string>

@@ -14,6 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+
 public class NewPos extends AppCompatActivity{
     static final int REQUEST_IMAGE_CAPTURE = 1;
     double lon = 0;
@@ -71,6 +78,37 @@ public class NewPos extends AppCompatActivity{
                     Toast.makeText(context, "Bitte tragen sie noch ihren gewünschten Preis und den Namen ihres Fahraden ein", Toast.LENGTH_SHORT).show();
                     }else {
                     Toast.makeText(context, "Irgendwann könnte dieser eintrag jetzt in der Blockchain landen", Toast.LENGTH_SHORT).show();
+
+                    Bikes bikes = new Bikes();
+                    bikes.name = newPos_name.getText().toString();
+                    bikes.lat = lat;
+                    bikes.lon = lon;
+                    bikes.specialities = newPos_specialities.getText().toString();
+                    MainActivity.bikeList.add(bikes);
+
+                    String newBike = "{name:"+bikes.name+",lat:"+bikes.lat+",lon:"+bikes.lon+",specialities:"+bikes.specialities+"}";
+
+                    /*URL url = null;
+                    try {
+                        Toast.makeText(context, "Senden zum server", Toast.LENGTH_SHORT).show();
+                        url = new URL("http://tarf.ddns.net:8545");
+                        HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
+                        httpCon.setDoOutput(true);
+                        httpCon.setRequestMethod("GET");
+                        OutputStreamWriter out = new OutputStreamWriter(
+                                httpCon.getOutputStream());
+                        out.write(newBike);
+                        out.close();
+                    } catch (ProtocolException e) {
+                        e.printStackTrace();
+                    } catch (MalformedURLException e) {
+                        Toast.makeText(context, "Falsche serveradresse", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        Toast.makeText(context, "Verbindung Fehlgeschlagen", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }*/
+
                     finish();
                 }
             }

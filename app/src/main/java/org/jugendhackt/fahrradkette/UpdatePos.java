@@ -10,10 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 public class UpdatePos extends AppCompatActivity {
 
@@ -47,7 +49,16 @@ public class UpdatePos extends AppCompatActivity {
         TextView updatePos_commentar = (TextView) findViewById(R.id.updatePos_commentar);
         TextView updatePos_Pin = (TextView) findViewById(R.id.updatePos_Pin);
         final TextView updatePos_Pos = (TextView) findViewById(R.id.updatePos_Pos);
-        Spinner newPos_Pin = (Spinner) findViewById(R.id.updatePos_bikes);
+        Spinner updatePos_bikes = (Spinner) findViewById(R.id.updatePos_bikes);
+
+        String[] arraySpinner = new String[] {
+                "1", "2", "3", "4", "5"
+        };
+
+        /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, arraySpinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        updatePos_bikes.setAdapter(adapter);*/
 
         final Context context = this;
         add_pos.setOnClickListener(new View.OnClickListener() {
