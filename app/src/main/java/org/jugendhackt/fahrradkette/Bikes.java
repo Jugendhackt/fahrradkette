@@ -1,26 +1,35 @@
 package org.jugendhackt.fahrradkette;
 
-import android.media.Image;
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
+import org.json.JSONObject;
+
+@Entity
 public class Bikes {
-    public String name;
-    public double lon;
-    public double lat;
-    public String description;
-    public Image image;
-    public String owner;
-    public int distance;
+    @PrimaryKey
+    private int uid;
+
+    @ColumnInfo(name = "name")
+    private String name;
+
+    @ColumnInfo(name = "users")
+    private String users;
+
+    @ColumnInfo(name = "owner")
+    private String owner;
+
+    @ColumnInfo(name = "lon")
+    private double lon;
+
+    @ColumnInfo(name = "lat")
+    private double lat;
+
+    @ColumnInfo(name = "description")
+    private String description;
+
+    // https://developer.android.com/training/data-storage/room/
+    // Getters and setters are ignored for brevity,
+    // but they're required for Room to work.
 }
-
-/* Put http senden
-
-URL url = new URL("http://www.example.com/resource");
-HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
-httpCon.setDoOutput(true);
-httpCon.setRequestMethod("PUT");
-OutputStreamWriter out = new OutputStreamWriter(
-    httpCon.getOutputStream());
-out.write("Data you want to put");
-out.close();
-
- */

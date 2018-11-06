@@ -206,17 +206,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void newBike(final String name, final double lat, final double lon, final String description, final String owner, final int distance, Context ctx){
 
-        Bikes tempBikes = new Bikes();
-        tempBikes.name = name;
-        tempBikes.lat = lat;
-        tempBikes.lon = lon;
-        tempBikes.description = description;
-        tempBikes.owner = owner;
-        tempBikes.distance = distance;
-        bikes.add(tempBikes);
-
-        Log.d("newBike", String.valueOf(bikes.get(0)));
-
         ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
         items.add(new OverlayItem(name, description, new GeoPoint(lat,lon))); // Lat/Lon decimal degrees
         ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
