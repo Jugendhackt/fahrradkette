@@ -6,10 +6,10 @@ public class Bikes {
     public String name;
     public double lon;
     public double lat;
-    public double money;
-    public String specialities;
+    public String description;
     public Image image;
     public String owner;
+    public int distance;
 }
 
 /* Put http senden

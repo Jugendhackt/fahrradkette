@@ -61,17 +61,10 @@ public class MainActivity extends AppCompatActivity {
 
     double latPos = 51.47931;
     double lonPos = 11.99317;
-    double latBike0 = 51.48991;
-    double lonBike0 = 12.015;
-    double latBike1 = 51.46951;
-    double lonBike1 = 11.98287;
-    double latBike2 = 51.48991;
-    double lonBike2 = 11.98257;
-    double latBike3 = 51.46971;
-    double lonBike3 = 12.01;
 
 
     MyLocationNewOverlay mLocationOverlay;
+    ArrayList<Bikes> bikes = new ArrayList<Bikes>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -127,7 +120,10 @@ public class MainActivity extends AppCompatActivity {
         map = (MapView) findViewById(R.id.map);
 
         ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-        items.add(new OverlayItem("Bike", "Price: 1.000.000€", new GeoPoint(51.465,11.985))); // Lat/Lon decimal degrees
+        //items.add(new OverlayItem("Bike", "Price: 1.000.000€", new GeoPoint(51.465,11.985))); // Lat/Lon decimal degrees
+        newBike("Weißes Fahrrad",51.465,11.985, "Ein Sehr schönes Fahrad","Herr Müller",400, this);
+        newBike("Dunkles Fahrrad",51.460,11.980, "Ein normales Fahrad2","Herr Müller",400, this);
+        newBike("Rotes Fahrrad",51.470,11.990, "Ein Sehr schlechtes Fahrad3","Herr Müller",400, this);
         apiRest(lonPos,latPos,900000000);
         int bikeId = 0;
         //the overlay
@@ -149,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         mOverlay.setFocusItemsOnTap(true);
 
         map.getOverlays().add(mOverlay);
-        newBike("biky", 51.475, 11.975, 1234, "nice Bike", ctx);
+        newBike("biky", 51.475, 11.975,  "nice Bike","ICH",123 ,ctx);
     }
 
 
@@ -206,9 +202,21 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void newBike(final String name, final double lat, final double lon, final double price, final String description, Context ctx){
+    public void newBike(final String name, final double lat, final double lon, final String description, final String owner, final int distance, Context ctx){
+
+        Bikes tempBikes = new Bikes();
+        tempBikes.name = name;
+        tempBikes.lat = lat;
+        tempBikes.lon = lon;
+        tempBikes.description = description;
+        tempBikes.owner = owner;
+        tempBikes.distance = distance;
+        bikes.add(tempBikes);
+
+        Log.d("newBike", String.valueOf(bikes.get(0)));
+
         ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-        items.add(new OverlayItem(name, "" + price, new GeoPoint(lat,lon))); // Lat/Lon decimal degrees
+        items.add(new OverlayItem(name, description, new GeoPoint(lat,lon))); // Lat/Lon decimal degrees
         ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
                 new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
                     @Override
@@ -222,8 +230,9 @@ public class MainActivity extends AppCompatActivity {
                         myIntent.putExtra("name", "Name: " + name); //Optional parameters
                         myIntent.putExtra("lat", "Latitude: " + lat);
                         myIntent.putExtra("lon", "Longitude:" + lon);
-                        myIntent.putExtra("price", "Preis: " + price);
-                        myIntent.putExtra("description", description);
+                        myIntent.putExtra("distance", "Enfernung: " + distance);
+                        myIntent.putExtra("description", "Beschreibung: " + description);
+                        myIntent.putExtra("owner","Eigentümer: " + owner);
                         MainActivity.this.startActivity(myIntent);
                         return false;
                     }
@@ -232,41 +241,9 @@ public class MainActivity extends AppCompatActivity {
         map.getOverlays().add(mOverlay);
     }
 
-    private static final String apiUrl =
-            "http://tarf.ddns.net:8545/api/bikes/nearby";
 
-    public static JSONObject restApi(Context context, double lat, double lon){
-        try {
-            URL url = new URL(String.format(apiUrl, lat,lon));
-            HttpURLConnection connection =
-                    (HttpURLConnection)url.openConnection();
+    private static final String apiUrl = "http://tarf.ddns.net:8545/api/bikes/nearby";
 
-            //connection.addRequestProperty("x-api-key",context.getString(R.string.open_weather_maps_app_id));
-
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream()));
-
-            StringBuffer json = new StringBuffer(1024);
-            String tmp="";
-            while((tmp=reader.readLine())!=null)
-                json.append(tmp).append("\n");
-            reader.close();
-
-            JSONObject data = new JSONObject(json.toString());
-
-            // This value will be 404 if the request was not
-            // successful
-            if(data.getInt("cod") != 200){
-                Log.e("FK","FEHLER");
-                return null;
-            }
-
-            return data;
-        }catch(Exception e){
-            Log.e("FK",e.toString());
-            return null;
-        }
-    }
 
     public void apiRest(double lon,double lat, int radius){
         String url = apiUrl;

@@ -7,6 +7,20 @@
     tools:context="org.jugendhackt.fahrradkette.bikeInfo">
 
     <TextView
+        android:id="@+id/owner"
+        android:layout_width="349dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lon"
+        app:layout_constraintVertical_bias="0.365" />
+
+    <TextView
         android:id="@+id/name"
         android:layout_width="349dp"
         android:layout_height="wrap_content"
@@ -44,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/lat" />
 
     <TextView
-        android:id="@+id/price"
+        android:id="@+id/distenc"
         android:layout_width="349dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -52,14 +66,30 @@
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/back"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lon" />
+        app:layout_constraintTop_toBottomOf="@+id/lon"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/desctrption"
+        android:layout_width="349dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lon"
+        app:layout_constraintVertical_bias="0.73" />
 
     <Button
         android:id="@+id/back"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="301dp"
+        android:layout_marginBottom="248dp"
         android:layout_marginEnd="120dp"
         android:layout_marginStart="16dp"
         android:text="zurück"
@@ -70,9 +100,9 @@
 
     <Button
         android:id="@+id/rent"
-        android:layout_width="120dp"
+        android:layout_width="135dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="299dp"
+        android:layout_marginBottom="248dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:text="ausleihen"

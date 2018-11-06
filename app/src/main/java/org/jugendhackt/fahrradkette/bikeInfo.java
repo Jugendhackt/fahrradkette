@@ -18,14 +18,18 @@ public class bikeInfo extends AppCompatActivity {
         TextView name = (TextView) findViewById(R.id.name);
         TextView lat = (TextView) findViewById(R.id.lat);
         TextView lon = (TextView) findViewById(R.id.lon);
-        TextView price = (TextView) findViewById(R.id.price);
+        TextView distenc = (TextView) findViewById(R.id.distenc);
+        TextView desctrption = (TextView) findViewById(R.id.desctrption);
+        TextView owner = (TextView) findViewById(R.id.owner);
         Button back = (Button) findViewById(R.id.back);
         Button rent = (Button) findViewById(R.id.rent);
 
         name.setText(intent.getStringExtra("name")); //if it's a string you stored.
         lat.setText(intent.getStringExtra("lat"));
         lon.setText(intent.getStringExtra("lon"));
-        price.setText(intent.getStringExtra("price"));
+        desctrption.setText(intent.getStringExtra("desctrption"));
+        distenc.setText(intent.getStringExtra("distance"));
+        owner.setText(intent.getStringExtra("owner"));
 
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

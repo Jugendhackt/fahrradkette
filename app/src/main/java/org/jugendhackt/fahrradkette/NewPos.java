@@ -83,10 +83,10 @@ public class NewPos extends AppCompatActivity{
                     bikes.name = newPos_name.getText().toString();
                     bikes.lat = lat;
                     bikes.lon = lon;
-                    bikes.specialities = newPos_specialities.getText().toString();
+                    bikes.description = newPos_specialities.getText().toString();
                     MainActivity.bikeList.add(bikes);
 
-                    String newBike = "{name:"+bikes.name+",lat:"+bikes.lat+",lon:"+bikes.lon+",specialities:"+bikes.specialities+"}";
+                    String newBike = "{name:"+bikes.name+",lat:"+bikes.lat+",lon:"+bikes.lon+",specialities:"+bikes.description+"}";
 
                     /*URL url = null;
                     try {
