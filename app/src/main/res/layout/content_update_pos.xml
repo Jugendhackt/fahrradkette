@@ -10,7 +10,7 @@
     tools:showIn="@layout/activity_update_pos">
 
     <Spinner
-        android:id="@+id/updatePos_bikes"
+        android:id="@+id/updatePos_myBikes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:entries="@array/updatePos_bikes"

@@ -49,17 +49,17 @@ public class UpdatePos extends AppCompatActivity {
         TextView updatePos_commentar = (TextView) findViewById(R.id.updatePos_commentar);
         TextView updatePos_Pin = (TextView) findViewById(R.id.updatePos_Pin);
         final TextView updatePos_Pos = (TextView) findViewById(R.id.updatePos_Pos);
-        Spinner updatePos_bikes = (Spinner) findViewById(R.id.updatePos_bikes);
+        Spinner updatePos_MyBikes = (Spinner) findViewById(R.id.updatePos_myBikes);
 
-        String[] arraySpinner = new String[] {
-                "1", "2", "3", "4", "5"
-        };
+        final MainActivity mainActivity = new MainActivity();
 
         /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, arraySpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         updatePos_bikes.setAdapter(adapter);*/
-
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, mainActivity.myBikes(false));
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+        updatePos_MyBikes.setAdapter(spinnerArrayAdapter);
         final Context context = this;
         add_pos.setOnClickListener(new View.OnClickListener() {
             @Override

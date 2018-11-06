@@ -16,7 +16,8 @@ import android.widget.Toast;
 public class MyBikes extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ListView exampleListView;
-    private String[] bikes = new String[] {"Bike", "Bike1"};
+    private MainActivity mainActivity = new MainActivity();
+    private String[] bikes = mainActivity.myBikes(false);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

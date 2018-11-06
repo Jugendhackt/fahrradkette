@@ -25,7 +25,7 @@ public class NewPos extends AppCompatActivity{
     static final int REQUEST_IMAGE_CAPTURE = 1;
     double lon = 0;
     double lat = 0;
-
+    Bitmap bitmap = null;
     ImageView mImageView;
 
     @Override
@@ -45,6 +45,7 @@ public class NewPos extends AppCompatActivity{
 
         final Button newPos_finish = (Button) findViewById(R.id.newPos_finish);
         Button add_pos = (Button) findViewById(R.id.add_pos);
+        Button add_image = (Button) findViewById(R.id.add_image);
         final TextView newPos_name = (TextView) findViewById(R.id.newPos_name);
         final TextView newPos_money = (TextView) findViewById(R.id.newPos_money);
         TextView newPos_Pin = (TextView) findViewById(R.id.newPos_Pin);
@@ -64,16 +65,23 @@ public class NewPos extends AppCompatActivity{
 
                 position = gpsTracking.qps_request_button(context, 2);
 
-                dispatchTakePictureIntent();
+                //dispatchTakePictureIntent();
                 //newPos_Pos("" + position[0], "" + position[1]);
+            }
+        });
+
+        add_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dispatchTakePictureIntent();
             }
         });
 
         newPos_finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(lon == 0 && lat == 0){
-                    Toast.makeText(context, "Bitte füren sie ihre Position noch hinzu", Toast.LENGTH_SHORT).show();
+                if(lon == 0 && lat == 0 && bitmap == null){
+                    Toast.makeText(context, "Bitte füren sie noch ihre Position und ein Bild hinzu", Toast.LENGTH_SHORT).show();
                 }else if(newPos_name.getText().equals("") && newPos_money.getText().equals("")){
                     Toast.makeText(context, "Bitte tragen sie noch ihren gewünschten Preis und den Namen ihres Fahraden ein", Toast.LENGTH_SHORT).show();
                     }else {
@@ -87,6 +95,8 @@ public class NewPos extends AppCompatActivity{
                     MainActivity.bikeList.add(bikes);
 
                     String newBike = "{name:"+bikes.name+",lat:"+bikes.lat+",lon:"+bikes.lon+",specialities:"+bikes.description+"}";
+                    //MainActivity mainActivity = new MainActivity();
+                    //mainActivity.newBikeAufrufen(newPos_name.getText().toString(), lon, lat, newPos_specialities.getText().toString(),"MyUserName", 900);
 
                     /*URL url = null;
                     try {
@@ -132,7 +142,6 @@ public class NewPos extends AppCompatActivity{
         newPospos.setText(nlat + ", " + nlon);
         lat = nlat;
         lon = nlon;
-
     }
 
     public String randome_code() {
@@ -154,8 +163,8 @@ public class NewPos extends AppCompatActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            mImageView.setImageBitmap(imageBitmap);
+             bitmap = (Bitmap) extras.get("data");
+            mImageView.setImageBitmap(bitmap);
         }
     }
 }

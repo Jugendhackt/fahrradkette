@@ -52,6 +52,7 @@ import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     MapView map = null;
@@ -65,9 +66,10 @@ public class MainActivity extends AppCompatActivity {
 
     MyLocationNewOverlay mLocationOverlay;
     ArrayList<Bikes> bikes = new ArrayList<Bikes>();
+    Context ctxx;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        ctxx = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -242,13 +244,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private static final String apiUrl = "http://tarf.ddns.net:8545/api/bikes/nearby";
-
+    private static final String apiUrl = "https://tarf.ddns.net:8545/api/bikes/1";
 
     public void apiRest(double lon,double lat, int radius){
         String url = apiUrl;
         RequestQueue queue = Volley.newRequestQueue(this);
 
+        Log.d ("api","ApiRestStart");
         Map<String, String> params = new HashMap();
         params.put("lat", Double.toString(lat));
         params.put("lon", Double.toString(lon));
@@ -261,14 +263,15 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         //mTextView.setText("Response: " + response.toString());
-                        Log.e("FKK",response.toString());
+                        Log.i("api","JSON:");
+                        Log.i("api",response.toString());
                     }
                 }, new Response.ErrorListener() {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO: Handle error
-
+                        Log.e ("api",error.toString());
                     }
                 });
 
@@ -288,5 +291,10 @@ public class MainActivity extends AppCompatActivity {
         map.getOverlays().add(this.mLocationOverlay);
         GeoPoint startPoint = new GeoPoint(lat, lon);
         mapController.setCenter(startPoint);
+    }
+
+    public String[] myBikes (boolean ImOwner){
+        String myBikes [] = {"Altes Bike", "Neues Bike", "RostEsel"};
+        return myBikes;
     }
 }
