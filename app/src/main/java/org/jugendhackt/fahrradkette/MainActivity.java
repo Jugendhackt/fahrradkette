@@ -1,19 +1,15 @@
 package org.jugendhackt.fahrradkette;
 
-import android.app.DownloadManager;
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.Manifest;
-import android.app.Activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,7 +27,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
-import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -39,33 +34,27 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
-import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     MapView map = null;
     GPSTracking qps;
 
-    public static ArrayList<Bikes> bikeList = new ArrayList<Bikes>();
+    public static ArrayList<BikeDb> bikeList = new ArrayList<BikeDb>();
 
     double latPos = 51.47931;
     double lonPos = 11.99317;
 
 
     MyLocationNewOverlay mLocationOverlay;
-    ArrayList<Bikes> bikes = new ArrayList<Bikes>();
+    ArrayList<BikeDb> bikes = new ArrayList<BikeDb>();
     Context ctxx;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         for (int i = 4;i>0;i--){
-            Bikes bikes = new Bikes();
+            BikeDb bikes = new BikeDb();
             bikeList.add(bikes);
         }
 
@@ -127,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         newBike("Dunkles Fahrrad",51.460,11.980, "Ein normales Fahrad2","Herr Müller",400, this);
         newBike("Rotes Fahrrad",51.470,11.990, "Ein Sehr schlechtes Fahrad3","Herr Müller",400, this);
         apiRest(lonPos,latPos,900000000);
-        int bikeId = 0;
+        final int bikeId = 0;
         //the overlay
         ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
                 new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
@@ -145,6 +134,22 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }, ctx);
         mOverlay.setFocusItemsOnTap(true);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                        AppDatabase.class, "database-name").build();
+                BikeDb bikeDb = new BikeDb();
+                bikeDb.setLat(0.3);
+                bikeDb.setLon(1);
+                bikeDb.setDescription("Geiles bike, oder?");
+                bikeDb.setOwner("Alex");
+                bikeDb.setName("Gelbes Fahrad");
+                db.bikeDao().insert(bikeDb);
+                Log.i("db",db.bikeDao().getAll().get(0).toString());
+            }
+        }).start();
 
         map.getOverlays().add(mOverlay);
         newBike("biky", 51.475, 11.975,  "nice Bike","ICH",123 ,ctx);
@@ -190,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (id == R.id.alexList) {
-            Intent intent = new Intent(this, List.class);
+            Intent intent = new Intent(this, BikeList.class);
             startActivity(intent);
             return true;
         }

@@ -13,7 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class List extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class BikeList extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ListView exampleListView;
     private String[] bikes = new String[] {"Bike - 40m", "Bike1 - 230m", "Alex Altes Bike - 500m", "Mias Fahrrad - 2km"};

@@ -34,7 +34,7 @@
             android:label="@string/title_activity_info"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".List"
+            android:name=".BikeList"
             android:label="@string/title_activity_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".bikeInfo" />
