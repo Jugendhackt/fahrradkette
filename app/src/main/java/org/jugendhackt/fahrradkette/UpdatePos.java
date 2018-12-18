@@ -2,7 +2,9 @@ package org.jugendhackt.fahrradkette;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,9 +14,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import static org.jugendhackt.fahrradkette.NewPos.REQUEST_IMAGE_CAPTURE;
 
 
 public class UpdatePos extends AppCompatActivity {
@@ -22,12 +27,17 @@ public class UpdatePos extends AppCompatActivity {
     double lon = 0;
     double lat = 0;
 
+    ImageView mImageView;
+    Bitmap bitmap = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_pos);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mImageView = (ImageView) findViewById(R.id.UpdatePos_ImageView);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +56,7 @@ public class UpdatePos extends AppCompatActivity {
         Button updatePos_finish = (Button) findViewById(R.id.updatePos_finish);
         Button add_pos = (Button) findViewById(R.id.add_pos);
         Button toUpdatePos = (Button) findViewById(R.id.toUpdatePos);
+        Button add_image = (Button) findViewById(R.id.UpdatePos_add_image);
         TextView updatePos_commentar = (TextView) findViewById(R.id.updatePos_commentar);
         TextView updatePos_Pin = (TextView) findViewById(R.id.updatePos_Pin);
         final TextView updatePos_Pos = (TextView) findViewById(R.id.updatePos_Pos);
@@ -70,6 +81,13 @@ public class UpdatePos extends AppCompatActivity {
 
                 position = gpsTracking.qps_request_button(context, 3);
                 //newPos_Pos("" + position[0], "" + position[1]);
+            }
+        });
+
+        add_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dispatchTakePictureIntent();
             }
         });
 
@@ -123,6 +141,22 @@ public class UpdatePos extends AppCompatActivity {
             code += (int)(Math.random() * 10) + "";
         }
         return code;
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            bitmap = (Bitmap) extras.get("data");
+            mImageView.setImageBitmap(bitmap);
+        }
     }
 
 }

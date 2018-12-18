@@ -30,6 +30,12 @@
         android:inputType="numberSigned" />
 
     <Button
+        android:id="@+id/UpdatePos_add_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+    <Button
         android:id="@+id/add_pos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,5 +80,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/toUpdatePos" />
+
+    <ImageView
+        android:id="@+id/UpdatePos_ImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_launcher_round" />
 
 </LinearLayout>

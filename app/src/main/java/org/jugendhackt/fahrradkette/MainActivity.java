@@ -201,6 +201,12 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
+        if (id == R.id.settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -243,8 +249,7 @@ public class MainActivity extends AppCompatActivity {
         map.getOverlays().add(mOverlay);
     }
 
-
-    private static final String apiUrl = "https://tarf.ddns.net:8545/api/bikes/1";
+    private static final String apiUrl = "https://devtarf.ddns.net/api/bikes/1";
 
     public void apiRest(double lon,double lat, int radius){
         String url = apiUrl;
