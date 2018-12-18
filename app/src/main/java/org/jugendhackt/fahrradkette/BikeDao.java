@@ -25,4 +25,3 @@ public interface BikeDao {
     @Delete
     void delete(BikeDb user);
 }
-

@@ -54,8 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     MyLocationNewOverlay mLocationOverlay;
-    ArrayList<BikeDb> bikes = new ArrayList<BikeDb>();
-    Context ctxx;
+    public static Context ctxx;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ctxx = this;
@@ -72,10 +71,39 @@ public class MainActivity extends AppCompatActivity {
 
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }
-        Log.d("FK","ES GEHT WEITER");
+        //Log.d("FK","ES GEHT WEITER");
 
         qps = new GPSTracking(this);
         final Context contex = this;
+
+        /*Log.i("db","Thread start");
+        new Thread(new Runnable() {
+            public void run() {
+                Log.i("db","Die Datenbank Info ist: --");
+                AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                        AppDatabase.class, "database-name").build();
+                BikeDb bikeDb = new BikeDb();
+                bikeDb.setUid(200);
+                bikeDb.setName("alex");
+                bikeDb.setLat(latPos);
+                bikeDb.setLon(lonPos);
+                bikeDb.setDescription("Ein sehr geiles Bike");
+                bikeDb.setIsMy(true);
+                db.bikeDao().insert(bikeDb);
+                Log.i("db","Die Datenbank Info ist:");
+                Log.i("db",String.valueOf(db.bikeDao().getAll().size()));
+                db.close();
+            }});*/
+
+        BikeVar bikeVar = new BikeVar();
+        Bikes bikes = new Bikes(2000,"alex",latPos,lonPos,"ist geil",true);
+
+        bikeVar.setBikes(bikes);
+
+        //Log.i("dbi", String.valueOf(bikeVar.getAllBikes().size()));
+        //for (int i = 0;i<bikeVar.getAllBikes().size();i++)
+        //    Log.i("db",bikeVar.getAllBikes().get(i).toString());
+
 
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
@@ -98,15 +126,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        for (int i = 4;i>0;i--){
-            BikeDb bikes = new BikeDb();
-            bikeList.add(bikes);
-        }
-
-        for(int i = bikeList.size(); i >0; i--){
-
-        }
-
         qps.qps_request_button(contex, 1);
         map = (MapView) findViewById(R.id.map);
 
@@ -115,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         newBike("Weißes Fahrrad",51.465,11.985, "Ein Sehr schönes Fahrad","Herr Müller",400, this);
         newBike("Dunkles Fahrrad",51.460,11.980, "Ein normales Fahrad2","Herr Müller",400, this);
         newBike("Rotes Fahrrad",51.470,11.990, "Ein Sehr schlechtes Fahrad3","Herr Müller",400, this);
-        apiRest(lonPos,latPos,900000000);
+
         final int bikeId = 0;
         //the overlay
         ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
@@ -135,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 }, ctx);
         mOverlay.setFocusItemsOnTap(true);
 
-        new Thread(new Runnable() {
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
                 AppDatabase db = Room.databaseBuilder(getApplicationContext(),
@@ -147,14 +166,17 @@ public class MainActivity extends AppCompatActivity {
                 bikeDb.setOwner("Alex");
                 bikeDb.setName("Gelbes Fahrad");
                 db.bikeDao().insert(bikeDb);
-                Log.i("db",db.bikeDao().getAll().get(0).toString());
+                Log.i("db",db.bikeDao().getAll().get(0).getName().toString());
             }
-        }).start();
+        }).start();*/
 
         map.getOverlays().add(mOverlay);
         newBike("biky", 51.475, 11.975,  "nice Bike","ICH",123 ,ctx);
     }
 
+    private void test(String s){
+        Log.i("dbin",s);
+    }
 
     public void onResume(){
         super.onResume();
@@ -235,42 +257,6 @@ public class MainActivity extends AppCompatActivity {
                 }, ctx);
         mOverlay.setFocusItemsOnTap(true);
         map.getOverlays().add(mOverlay);
-    }
-
-
-    private static final String apiUrl = "https://tarf.ddns.net:8545/api/bikes/1";
-
-    public void apiRest(double lon,double lat, int radius){
-        String url = apiUrl;
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        Log.d ("api","ApiRestStart");
-        Map<String, String> params = new HashMap();
-        params.put("lat", Double.toString(lat));
-        params.put("lon", Double.toString(lon));
-
-        JSONObject parameters = new JSONObject(params);
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        //mTextView.setText("Response: " + response.toString());
-                        Log.i("api","JSON:");
-                        Log.i("api",response.toString());
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
-                        Log.e ("api",error.toString());
-                    }
-                });
-
-// Access the RequestQueue through your singleton class.
-        queue.add(jsonObjectRequest);
     }
 
     public void mapCenter(double lat, double lon) {

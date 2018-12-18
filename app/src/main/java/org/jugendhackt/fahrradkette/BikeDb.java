@@ -11,6 +11,22 @@ public class BikeDb {
     @PrimaryKey(autoGenerate = true)
     private int uid;
 
+    @ColumnInfo(name = "name")
+    private String name;
+
+    @ColumnInfo(name = "lon")
+    private double lon;
+
+    @ColumnInfo(name = "lat")
+    private double lat;
+
+    @ColumnInfo(name = "isMy")
+    private boolean isMy;
+
+    @ColumnInfo(name = "description")
+    private String description;
+
+
     public int getUid() {
         return uid;
     }
@@ -25,14 +41,6 @@ public class BikeDb {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
     }
 
     public double getLon() {
@@ -51,6 +59,10 @@ public class BikeDb {
         this.lat = lat;
     }
 
+    public boolean getIsMy() { return isMy; }
+
+    public void setIsMy(boolean isMy) { this.isMy = isMy; }
+
     public String getDescription() {
         return description;
     }
@@ -59,20 +71,6 @@ public class BikeDb {
         this.description = description;
     }
 
-    @ColumnInfo(name = "name")
-    private String name;
-
-    @ColumnInfo(name = "owner")
-    private String owner;
-
-    @ColumnInfo(name = "lon")
-    private double lon;
-
-    @ColumnInfo(name = "lat")
-    private double lat;
-
-    @ColumnInfo(name = "description")
-    private String description;
 
     // https://developer.android.com/training/data-storage/room/
     //die restlichen daten sendet dann der Server bei bedarf einen zu
