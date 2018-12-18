@@ -76,25 +76,6 @@ public class MainActivity extends AppCompatActivity {
         qps = new GPSTracking(this);
         final Context contex = this;
 
-        /*Log.i("db","Thread start");
-        new Thread(new Runnable() {
-            public void run() {
-                Log.i("db","Die Datenbank Info ist: --");
-                AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                        AppDatabase.class, "database-name").build();
-                BikeDb bikeDb = new BikeDb();
-                bikeDb.setUid(200);
-                bikeDb.setName("alex");
-                bikeDb.setLat(latPos);
-                bikeDb.setLon(lonPos);
-                bikeDb.setDescription("Ein sehr geiles Bike");
-                bikeDb.setIsMy(true);
-                db.bikeDao().insert(bikeDb);
-                Log.i("db","Die Datenbank Info ist:");
-                Log.i("db",String.valueOf(db.bikeDao().getAll().size()));
-                db.close();
-            }});*/
-
         BikeVar bikeVar = new BikeVar();
         Bikes bikes = new Bikes(2000,"alex",latPos,lonPos,"ist geil",true);
 
@@ -104,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         //for (int i = 0;i<bikeVar.getAllBikes().size();i++)
         //    Log.i("db",bikeVar.getAllBikes().get(i).toString());
 
+        bikeVar.apiRest(lonPos,latPos,10000);
 
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
@@ -229,6 +211,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setBikes(int radius){
+        ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+        BikeVar bikeVar = new BikeVar();
+        for(int i = 0; i < bikeVar.getAllBikes().size(); i++){
+            List<BikeDb> bikeDb = bikeVar.getAllBikes();
+            items.add(new OverlayItem(bikeDb.get(i).getName(), bikeDb.get(i).getDescription(), new GeoPoint(bikeDb.get(i).getLat(),bikeDb.get(i).getLon())));
+        }
     }
 
     public void newBike(final String name, final double lat, final double lon, final String description, final String owner, final int distance, Context ctx){

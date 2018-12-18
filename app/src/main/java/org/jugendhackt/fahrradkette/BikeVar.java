@@ -4,7 +4,18 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 class Bikes{
     public int id;
@@ -31,54 +42,67 @@ public class BikeVar {
     AppDatabase db = Room.databaseBuilder(ctx.getApplicationContext(),
             AppDatabase.class, "database-name").build();
 
+    int [] id;
     public Bikes getBikes (int index){
-        int [] id = {index};
+        id[0] = index;
 
-        Bikes bikes = new Bikes(
-                db.bikeDao().loadAllByIds(id).get(0).getUid(),
-                db.bikeDao().loadAllByIds(id).get(0).getName(),
-                db.bikeDao().loadAllByIds(id).get(0).getLon(),
-                db.bikeDao().loadAllByIds(id).get(0).getLat(),
-                db.bikeDao().loadAllByIds(id).get(0).getDescription(),
-                db.bikeDao().loadAllByIds(id).get(0).getIsMy()
-        );
+        new Thread(new Runnable() {
+            public void run() {
+                pBikes = new Bikes(
+                        db.bikeDao().loadAllByIds(id).get(0).getUid(),
+                        db.bikeDao().loadAllByIds(id).get(0).getName(),
+                        db.bikeDao().loadAllByIds(id).get(0).getLon(),
+                        db.bikeDao().loadAllByIds(id).get(0).getLat(),
+                        db.bikeDao().loadAllByIds(id).get(0).getDescription(),
+                        db.bikeDao().loadAllByIds(id).get(0).getIsMy()
+                );
+            }}).start();
 
-        return bikes;
+        return pBikes;
     }
 
-    public void setBikes (Bikes bikes){
+    private Bikes pBikes;
 
-        BikeDb bikeDb = new BikeDb();
-        bikeDb.setUid(bikes.id);
-        bikeDb.setLat(bikes.lat);
-        bikeDb.setLon(bikes.lon);
-        bikeDb.setDescription(bikes.description);
-        bikeDb.setName(bikes.name);
-        bikeDb.setIsMy(bikes.isMy);
-        db.bikeDao().insert(bikeDb);
+    public void setBikes (final Bikes bikes){
+        pBikes = bikes;
+        new Thread(new Runnable() {
+            public void run() {
+                Bikes bikes = pBikes;
+                BikeDb bikeDb = new BikeDb();
+                bikeDb.setLat(bikes.lat);
+                bikeDb.setLon(bikes.lon);
+                bikeDb.setDescription(bikes.description);
+                bikeDb.setName(bikes.name);
+                bikeDb.setIsMy(bikes.isMy);
+                db.bikeDao().insert(bikeDb);
+            }}).start();
     }
 
+    private List<BikeDb> bikeDb;
     public List getAllBikes(){
 
         Log.i("db", String.valueOf(db.bikeDao().getAll().size()));
-        List<BikeDb> bikeDao;
-        bikeDao = db.bikeDao().getAll();
 
-        return bikeDao;
+        new Thread(new Runnable() {
+            public void run() {
+                bikeDb = db.bikeDao().getAll();
+            }}).start();
+
+        return bikeDb;
     }
 
 
-
-    private static final String apiUrl = "https://tarf.ddns.net:8545/api/bikes/1";
+    private static final String apiUrl = "https://devtarf.ddns.net/api/bikes/nearby";
 
     public void apiRest(double lon,double lat, int radius){
-        /*String url = apiUrl;
-        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = apiUrl;
+        RequestQueue queue = Volley.newRequestQueue(ctx);
 
         Log.d ("api","ApiRestStart");
         Map<String, String> params = new HashMap();
         params.put("lat", Double.toString(lat));
         params.put("lon", Double.toString(lon));
+        params.put("radius", Double.toString(radius));
 
         JSONObject parameters = new JSONObject(params);
 
@@ -101,6 +125,6 @@ public class BikeVar {
                 });
 
 // Access the RequestQueue through your singleton class.
-        queue.add(jsonObjectRequest);*/
+        queue.add(jsonObjectRequest);
     }
 }

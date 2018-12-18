@@ -87,6 +87,16 @@ public class NewPos extends AppCompatActivity{
                     }else {
                     Toast.makeText(context, "Irgendwann könnte dieser eintrag jetzt in der Blockchain landen", Toast.LENGTH_SHORT).show();
 
+                    BikeVar bikeVar = new BikeVar();
+                    bikeVar.setBikes(new Bikes(
+                            0,
+                            newPos_name.getText().toString(),
+                            lat,
+                            lon,
+                            newPos_specialities.getText().toString(),
+                            true
+                    ));
+
                     //String newBike = "{name:"+bikes.name+",lat:"+bikes.lat+",lon:"+bikes.lon+",specialities:"+bikes.description+"}";
                     //MainActivity mainActivity = new MainActivity();
                     //mainActivity.newBikeAufrufen(newPos_name.getText().toString(), lon, lat, newPos_specialities.getText().toString(),"MyUserName", 900);
