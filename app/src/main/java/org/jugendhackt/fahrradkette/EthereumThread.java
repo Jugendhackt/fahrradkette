@@ -19,7 +19,9 @@ import org.web3j.tx.Contract;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
 import rx.functions.Action1;
 
 public class EthereumThread extends Thread {
@@ -31,11 +33,21 @@ public class EthereumThread extends Thread {
     }
 
     public void run() {
-        //Web3j web3 = Web3jFactory.build(new HttpService("http://192.168.21.165:8545"));
-        Web3j web3 = Web3jFactory.build(new HttpService("https://rinkeby.infura.io/v3/1e828833065f4455a2f04805cf1c0358"));
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.connectTimeout(30, TimeUnit.SECONDS);
+        builder.readTimeout(30, TimeUnit.SECONDS);
+        builder.writeTimeout(30, TimeUnit.SECONDS);
+
+        //HttpService hs = new HttpService("https://rinkeby.infura.io/v3/1e828833065f4455a2f04805cf1c0358", builder.build(), false);
+        HttpService hs = new HttpService("http://tarf.ddns.net:8545", builder.build(), true);
+        //HttpService hs = new HttpService("http://192.168.21.130:8545", builder.build(), true);
+        Web3j web3 = Web3jFactory.build(hs);
+
         Web3ClientVersion web3ClientVersion = null;
         try {
             web3ClientVersion = web3.web3ClientVersion().send();
+            Log.d(MainActivity.TAG, wallet.getAddress());
+
             EthGetBalance balance = web3.ethGetBalance(wallet.getAddress(),
                     DefaultBlockParameterName.LATEST).sendAsync().get();
             Log.d(MainActivity.TAG, "Balance:" + balance.getBalance().toString());
@@ -44,18 +56,19 @@ public class EthereumThread extends Thread {
             EthTransaction transaction = web3.ethGetTransactionByHash("0xded7a2ff08da4e9aaf62f2d9349f716ecf377ef31db67141a1e0c78d9536f226")
                     .sendAsync().get();
             Log.d(MainActivity.TAG, "From: " + transaction.getResult().getFrom());
-
+            */
             BigInteger blockNum = web3.ethGetBlockByNumber(DefaultBlockParameterName.LATEST, false).send()
                     .getBlock().getNumber();
 
-            Log.d(MainActivity.TAG, "Latest block num:" + blockNum.toString());*/
+            Log.d(MainActivity.TAG, "Latest block num:" + blockNum.toString());
 
             Bike bike = new Bike(11.12, 50.1, 10, 235, "Mein Fahrrad 2",
                     "Besonderheiten");
+            /*
+            BikeContract b = bike.getContractRemoteCall(web3, wallet).sendAsync().get();
+            Log.d(MainActivity.TAG, b.getContractAddress());*/
 
-            BikeContract b = bike.getContractRemoteCall(web3, wallet).send();
-            Log.d(MainActivity.TAG, b.getContractAddress());
-
+            /*
             String encodedEventSignature = EventEncoder.encode(b.NEWBIKE_EVENT);
 
             EthFilter filter = new EthFilter(DefaultBlockParameterName.EARLIEST,
@@ -68,18 +81,18 @@ public class EthereumThread extends Thread {
                     Log.d(MainActivity.TAG, "Found event: " + log.getTopics().toString());
                 }
             });
-
-            Log.d(MainActivity.TAG, String.valueOf(b.isValid()));
+            */
+            //Log.d(MainActivity.TAG, String.valueOf(b.isValid()));
 
 
         } catch (IOException e) {
-            Log.e(MainActivity.TAG, "error");
+            Log.e(MainActivity.TAG, "error111");
             e.printStackTrace();
         } catch (InterruptedException e) {
-            Log.e(MainActivity.TAG, "error");
+            Log.e(MainActivity.TAG, "error111");
             e.printStackTrace();
         } catch (ExecutionException e) {
-            Log.e(MainActivity.TAG, "error");
+            Log.e(MainActivity.TAG, "error111");
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
